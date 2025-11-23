@@ -2,8 +2,10 @@
   <div class="popup-container">
     <h1 class="title">B站小助手</h1>
 
-    <button class="btn blue" @click="getVideoInfo">获取视频信息</button>
-    <button class="btn pink" @click="openFloatingBox">打开悬浮窗（更多功能）</button>
+    <div class="popup-buttons">
+      <el-button class="btn-blue" @click="getVideoInfo">获取视频信息</el-button>
+      <el-button class="btn-pink" @click="openFloatingBox">打开悬浮窗</el-button>
+    </div>
 
     <p class="footer">by EL233</p>
   </div>
@@ -14,25 +16,12 @@ export default {
   methods: {
     send (action) {
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        chrome.tabs.sendMessage(
-          tabs[0].id,
-          { action },
-          (response) => {
-            console.log('content-script 回复：', response)
-            if (action === 'get_video_info' && response?.info) {
-              alert(
-                `UP主: ${response.info.upName}\n粉丝数: ${response.info.follower}\nBV号: ${response.info.bvid}\n标题: ${response.info.title}\n播放量: ${response.info.view}\n评论数: ${response.info.reply}`
-              )
-            }
-          }
-        )
+        chrome.tabs.sendMessage(tabs[0].id, { action })
       })
     },
-
     getVideoInfo () {
       this.send('get_video_info')
     },
-
     openFloatingBox () {
       this.send('open_floating_box')
     }
@@ -40,51 +29,75 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .popup-container {
   width: 280px;
   padding: 16px;
-  box-sizing: border-box;
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial;
-  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
 }
 
 .title {
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 16px;
-  color: #00a1d6; /* B站蓝 */
+  color: #00a1d6;
+  width: 100%;
   text-align: center;
 }
 
-.btn {
+.popup-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   width: 100%;
-  padding: 10px 0;
-  margin-bottom: 10px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
+}
+
+.popup-buttons .el-button {
+  width: 100%;
+  text-align: center !important;  /* 文本居中对齐 */
+  color: #fff !important;
   font-weight: bold;
-  transition: 0.2s;
+  border: none;
+  padding: 12px !important;  /* 统一内边距 */
+  margin: 0 !important;  /* 清除默认外边距 */
+  display: block !important;  /* 确保按钮为块级元素 */
+  box-sizing: border-box !important;  /* 包含边框和内边距在宽度内 */
+  transition: background-color 0.2s !important;
 }
 
-.btn.blue {
-  background-color: #00a1d6;
-  color: white;
+/* 覆盖 Element UI 按钮内部 span 的样式 */
+.popup-buttons .el-button > span {
+  display: block !important;
+  text-align: center !important;
+  width: 100% !important;
 }
 
-.btn.blue:hover {
-  background-color: #0086b3;
+.btn-blue {
+  background-color: #00a1d6 !important;
 }
 
-.btn.pink {
-  background-color: #ff6699;
-  color: white;
+.btn-blue:hover {
+  background-color: #00a1d6 !important;
 }
 
-.btn.pink:hover {
-  background-color: #ff4f88;
+.btn-blue:active {
+  background-color: #0086b3 !important;
+}
+
+.btn-pink {
+  background-color: #ff6699 !important;
+}
+
+.btn-pink:hover {
+  background-color: #ff6699 !important;
+}
+
+.btn-pink:active {
+  background-color: #e64d85 !important;
 }
 
 .footer {
@@ -92,5 +105,6 @@ export default {
   text-align: center;
   margin-top: 12px;
   color: #999;
+  width: 100%;
 }
 </style>
