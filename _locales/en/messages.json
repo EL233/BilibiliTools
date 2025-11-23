@@ -1,0 +1,11 @@
+﻿{
+  "extension_name": {
+    "message": "My Extension"
+  },
+  "extension_description": {
+    "message": "Get video information from Bilibili"
+  },
+  "get_video_info": {
+    "message": "Get Video Info"
+  }
+}

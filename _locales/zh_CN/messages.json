@@ -1,0 +1,11 @@
+﻿{
+  "extension_name": {
+    "message": "我的扩展"
+  },
+  "extension_description": {
+    "message": "从 B站 获取视频信息"
+  },
+  "get_video_info": {
+    "message": "获取视频信息"
+  }
+}

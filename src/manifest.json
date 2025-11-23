@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "default_locale": "zh_CN",
+  "name": "Bilibili Video Info Extension",
+  "description": "Get video information from Bilibili",
+  "version": "0.1.0",
+  "permissions": ["activeTab","tabs", "scripting"],
+  "host_permissions": ["https://*.bilibili.com/*"],
+  "icons": {
+    "16": "icons/16.png",
+    "48": "icons/48.png",
+    "128": "icons/128.png"
+  },
+  "background": {
+    "service_worker": "js/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*.bilibili.com/*"],
+      "js": ["content-script.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Bilibili Info",
+    "default_icon": {
+      "19": "icons/19.png",
+      "38": "icons/38.png"
+    }
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["icons/*.png"],
+      "matches": ["https://*.bilibili.com/*"]
+    }
+  ],
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqZY0Fh6Awr85pYK0C/w2Mu0fqxos6y+K07eS7K+lPSp3HxTIWl5lFRel37VcrJk17G5JxKaadcNMjK5I2krtJkcjRsFYLVFN3DfwKHQX/wz0DF4Z99X7igLa+ULV8TGSznTBCxQF8XJRBjNO+fY50tHhDkjQJrcczg4goRMXP5e9Qa/YbIs7lXej88rbfQ/pfmIgBSKbdor7N8l1jgXgPsv34jb71sLtpmy3d589UrGcHBVHonDyBj01D5eyTG9AttKHsAOK3ia6Zv0Oxtvt+95emaczScTt+0EvfNq3+3QErH1Zt0YczpqzUHaKOTOaGbUlQ/cauyVZbguzPNSjAQIDAQAB"
+}
